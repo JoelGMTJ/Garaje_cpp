@@ -17,7 +17,6 @@ class Car {
         float starRating; // estrellas sobre 5
         int seats; // cantidad de asientos
         string country; // japones - americano - aleman - britanico - italiano - coreano - chino - etc
-        string videogame; // videojuego donde salio, a base de mi experiencia
         int mileage; // kilometros que ha recorrido el auto
 
     public:
@@ -34,10 +33,9 @@ class Car {
             starRating = 0; 
             seats = 5;
             country = "internacional"; 
-            videogame = "N/A"; 
             mileage = 0;
         }
-        Car(string _brand, string _model, int _year, int _cost, string _color, int _horsePower, string _motor, float _starRating, int _seats, string _country, string _videogame, int _mileage){
+        Car(string _brand, string _model, int _year, int _cost, string _color, int _horsePower, string _motor, float _starRating, int _seats, string _country, int _mileage){
             brand = _brand;
             model = _model;
             year = _year;
@@ -56,7 +54,6 @@ class Car {
             starRating = _starRating;
             seats = _seats;
             country = _country;
-            videogame = _videogame;
             mileage = _mileage;
         }
         
@@ -90,9 +87,6 @@ class Car {
         }
         string get_country(){
             return country;
-        }
-        string get_videogame(){
-            return videogame;
         }
         int get_mileage(){
             return mileage;
@@ -130,9 +124,6 @@ class Car {
         void set_country(string _country){
             country = _country;
         }
-        void set_videogame(string _videogame){
-            videogame = _videogame;
-        }
         void set_mileage(int _mileage){
             mileage = _mileage;
         }
@@ -150,7 +141,6 @@ class Car {
             cout << "La calificacion del auto es de " << starRating << "/5 estrellas" << endl;
             cout << "El auto tiene " << seats << " asientos" << endl;
             cout << "El auto es de origen " << country << endl;
-            cout << "El auto tiene una aparicion en " << videogame << endl;
             cout << "El auto ha recorrido " << mileage << "km" << endl;
         }
 
