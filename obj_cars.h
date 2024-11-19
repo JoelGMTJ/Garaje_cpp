@@ -2,7 +2,8 @@
 #define CARS_H
 
 #include <iostream>
-#include "obj_fuel.h"
+#include "obj_gas.h"
+#include "obj_electric.h"
 using namespace std;
 
 class Car {
@@ -13,7 +14,6 @@ class Car {
         int cost; // costo en dolares
         string color; // color del auto
         int horsePower; // cantidad de caballos de fuerza
-        string motor; // 1 - combustible, 2 - hibrido, 3 - electrico
         float starRating; // estrellas sobre 5
         int seats; // cantidad de asientos
         string country; // japones - americano - aleman - britanico - italiano - coreano - chino - etc
@@ -29,28 +29,18 @@ class Car {
             cost = 0; 
             color = "blanco"; 
             horsePower = 50; 
-            motor = "motor desconocido"; 
             starRating = 0; 
             seats = 5;
             country = "internacional"; 
             mileage = 0;
         }
-        Car(string _brand, string _model, int _year, int _cost, string _color, int _horsePower, string _motor, float _starRating, int _seats, string _country, int _mileage){
+        Car(string _brand, string _model, int _year, int _cost, string _color, int _horsePower, float _starRating, int _seats, string _country, int _mileage){
             brand = _brand;
             model = _model;
             year = _year;
             cost = _cost;
             color = _color;
             horsePower = _horsePower;
-            if (_motor=="3"){
-                motor = "motor electrico";
-            }
-            else if (_motor == "2"){
-                motor = "motor hibrido";
-            }
-            else{
-                motor = "motor de combustion";
-            }
             starRating = _starRating;
             seats = _seats;
             country = _country;
@@ -75,9 +65,6 @@ class Car {
         }
         int get_horsePower(){
             return horsePower;
-        }
-        string get_motor(){
-            return motor;
         }
         float get_starRating(){
             return starRating;
@@ -112,9 +99,6 @@ class Car {
         void set_horsePower(int _horsePower){
             horsePower = _horsePower;
         }
-        void set_motor(string _motor){
-            motor = _motor;
-        }
         void set_starRating(float _starRating){
             starRating = _starRating;
         }
@@ -137,19 +121,15 @@ class Car {
             cout << "El precio original del auto es de $" << cost << " dolares" << endl;
             cout << "El auto es de color " << color << endl;
             cout << "El auto cuenta con " << horsePower << " caballos de fuerza" << endl;
-            cout << "El auto tiene un " << motor << endl;
             cout << "La calificacion del auto es de " << starRating << "/5 estrellas" << endl;
             cout << "El auto tiene " << seats << " asientos" << endl;
             cout << "El auto es de origen " << country << endl;
             cout << "El auto ha recorrido " << mileage << "km" << endl;
+            cout << "------------------------------------------------------------------------" << endl;
         }
 
         void car_moved(int travelled){
             mileage += travelled;
-        }
-
-        void car_repainted(string newPaint){
-            color = newPaint;
         }
 };
 
