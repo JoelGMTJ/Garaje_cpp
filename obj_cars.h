@@ -2,12 +2,10 @@
 #define CARS_H
 
 #include <iostream>
-#include "obj_gas.h"
-#include "obj_electric.h"
 using namespace std;
 
 class Car {
-    private:
+    protected:
         string brand; // marca del auto en Mayusculas
         string model; // modelo del auto en Mayusculas
         int year; // anio del modelo
@@ -114,7 +112,8 @@ class Car {
 
         //----metodos----
 
-        void print_datos(){
+        
+        void print_info_car(){
             cout << "------------------------------------------------------------------------" << endl;
             cout << "El auto es un " << brand << " " << model << endl;
             cout << "El auto es del anio " << year << endl;
@@ -125,7 +124,10 @@ class Car {
             cout << "El auto tiene " << seats << " asientos" << endl;
             cout << "El auto es de origen " << country << endl;
             cout << "El auto ha recorrido " << mileage << "km" << endl;
-            cout << "------------------------------------------------------------------------" << endl;
+        }
+
+        virtual void print_info(){
+            cout << "Algo ha salido mal "<< brand <<  endl;
         }
 
         void car_moved(int travelled){

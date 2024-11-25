@@ -1,34 +1,29 @@
 /*
 Programa que maneja un almacen de autos
 Creado por Joel Guadalupe Garcia Guzman A01713785
-12/nov/24
+24/nov/24
 */
 
 #include <iostream>
 #include "obj_cars.h"
 #include "obj_gas.h"
 #include "obj_electric.h"
-#include <vector>
+#include "obj_almacen.h"
 #include <string>
 
 using namespace std;
 
-std::vector<Car> inventory = {};
+Storage storage;
 
 //funcion para pausar el codigo
-void pausar(){
+void pause(){
     string linea;
     cout << "Presione algun caracter para continuar ";
     cin >> linea;
 }
 
-//funcion para agregar un objeto Car a una lista de inventario
-void update_inventory(Car carToAdd){
-        inventory.push_back(carToAdd);
-    }
-
 //funcion para crear un auto con todos los atributos INCOMPLETA ------------------------------------------------------------
-void crear_auto(){
+void create_car(){
     cout << "Vamos a agregar un auto a al garaje" << endl;
     string brand; // marca del auto en Mayusculas
     string model; // modelo del auto en Mayusculas
@@ -71,44 +66,9 @@ void crear_auto(){
 
 }
 
-//funcion para imprimir los datos de un auto
-void check_inventory(){
-    cout << "Que espacio del garaje quieres ver? ";
-    int index;
-    cin >> index;
-    inventory[index-1].print_datos();
-}
-
-//funcion que genera autos de ejemplo
-void generar_ejemplos(){
-    // auto generico, lo que pasa si creas un objeto sin parametros
-    Car generico = Car();
-    update_inventory(generico);
-
-    // ejemplos de autos 
-    Car MX5 = Car("Mazda", "Miata", 1989, 13800, "rojo", 115, 5,  2,  "japones", 30000);
-    update_inventory(MX5);
-
-    Car SF24 = Car("Ferrari", "Formula 1 SF24", 2024, 16000000, "rojo", 1000, 4.5, 1, "italiano", 8900);
-    update_inventory(SF24);
-
-    Car Tes3 = Car("Tesla", "Model 3", 2021, 400, "blanco", 400, 3, 5, "americano", 4000);
-    update_inventory(Tes3);
-}
-
-//funcion que imprime todas las opciones que puedes hacer en el programa
-void instrucciones(){
-    cout << endl << "Presione 1 para agregar un auto" << endl;
-    cout << "Presione 2 para sacar un auto a pasear" << endl;
-    cout << "Presione 3 para repintar un auto" << endl;
-    cout << "Presione 4 para llenar de gasolina a un auto" << endl;
-    cout << "Presione 5 para ver todos los datos de un auto" << endl;
-    cout << "Presione 6 para salir del programa" << endl;
-    cout << "Presione 7 para revisar nuevos objetos agregados (TEMPORAL)" << endl;
-}
-
-//imprime la marca y modelo de todos los autos del inventario, regresa el Car seleccionado
-Car seleccionarAuto(){
+//fff
+Car select_car(){
+    vector<Car> inventory = storage.get_AllCarList();
     for (int i = 0; i < inventory.size();i+=1){
         cout << "El auto " << i+1 << " es un " << inventory[i].get_brand() << " " << inventory[i].get_model() << endl;
     }
@@ -117,55 +77,80 @@ Car seleccionarAuto(){
     cin >> autoSeleccionado;
     return inventory[autoSeleccionado-1];
 }
+//funcion para imprimir los datos de un auto
+void check_inventory(){
+    //carros de combustible
+    vector<Gas> gas_cars = storage.get_gasList();
+
+    //carros electricos
+    vector<Electricity> electricity_cars = storage.get_electricityList();
+
+    for (int i = 0; i < gas_cars.size();i+=1){
+        cout << "El auto de combustible " << i+1 << " es un " << gas_cars[i].get_brand() << " " << gas_cars[i].get_model() << endl;
+    }
+    for (int i = 0; i < electricity_cars.size();i+=1){
+        cout << "El auto electrico " << i+1 << " es un " << electricity_cars[i].get_brand() << " " << electricity_cars[i].get_model() << endl;
+    }
+}
+
+//funcion que genera autos de ejemplo
+void create_examples(){
+    // auto generico, lo que pasa si creas un objeto sin parametros
+    Gas generico = Gas();
+    storage.add_gas(generico, generico);
+
+    // ejemplos de autos 
+    Gas MX5 = Gas(60, 45, "Mazda", "Miata", 1989, 13800, "rojo", 115, 5,  2,  "japones", 30000);
+    storage.add_gas(MX5, MX5);
+
+    Gas SF24 = Gas(145, 98, "Ferrari", "Formula 1 SF24", 2024, 16000000, "rojo", 1000, 4.5, 1, "italiano", 8900);
+    storage.add_gas(SF24, SF24);
+
+    Electricity Tes3 = Electricity(60000, 50000, "Tesla", "Model 3", 2021, 400, "blanco", 400, 3, 5, "americano", 4000);
+    storage.add_electricity(Tes3, Tes3);
+}
+
+//funcion que imprime todas las opciones que puedes hacer en el programa
+void instructions(){
+    cout << endl << "Presione 1 para agregar un auto" << endl;
+    cout << "Presione 2 para sacar un auto a pasear" << endl;
+    cout << "Presione 3 para repintar un auto" << endl;
+    cout << "Presione 4 para llenar de gasolina a un auto" << endl;
+    cout << "Presione 5 para ver todos los datos de un auto" << endl;
+    cout << "Presione 6 para salir del programa" << endl;
+}
+
+Electricity select_electricity(){
+
+}
 
 //funcion que le aumenta kilometraje a un auto y le resta gasolina
-void usar_auto(){
-    Car autoSeleccionado = seleccionarAuto();
+void use_car(){
+    Car selectedCar = select_car();
     //linea que te diga cuanta gasolina tiene el auto
     int kmRecorridos;
     int litrosUsados;
     cout << "Cuantos kilometros recorriste en tu auto? ";
     cin >> kmRecorridos;
-    autoSeleccionado.car_moved(kmRecorridos);
-    cout << "Cuantos litros de gasolina usaste? ";
-    cin >> litrosUsados;
-    //hacer cuando juntes la gasolina con el auto con herencias
+    selectedCar.car_moved(kmRecorridos);
 }
 
 //funcion que cambia el color de un auto
-void repintar_auto(){
-    Car autoSeleccionado = seleccionarAuto();
-    cout << "El actual color de tu auto es " << autoSeleccionado.get_color() << endl;
+void repaint_car(){
+    Car selectedCar = select_car();
+    cout << "El actual color de tu auto es " << selectedCar.get_color() << endl;
     cout << "Que color quieres pintar tu auto? ";
     string newPaint;
     cin >> newPaint;
-    autoSeleccionado.set_color(newPaint);
-    cout << "El nuevo color de tu " << autoSeleccionado.get_brand() << " " << autoSeleccionado.get_model() << " es " << autoSeleccionado.get_color();
+    selectedCar.set_color(newPaint);
+    cout << "El nuevo color de tu " << selectedCar.get_brand() << " " << selectedCar.get_model() << " es " << selectedCar.get_color() << endl;
 
 }
 
 //revisar los datos de algun auto
-void ver_datos(){
-    Car autoSeleccionado = seleccionarAuto();
-    autoSeleccionado.print_datos();
-}
-
-//revisar los objetos nuevos, la gasolina y la electricidad
-//ejemplos para ver algunos getters y algunos metodos
-void revisar_obj_nuevos(){
-    cout << "Ejemplo para el objeto de gasolina:" << endl << "-------------" << endl;
-    Gas gasolinaAuto1 (60, 45);
-    gasolinaAuto1.print_gas();
-    cout << "El auto ha usado 15L de gasolina" << endl;
-    gasolinaAuto1.gas_used(15);
-    cout << "El auto ahora tiene " << gasolinaAuto1.get_gasInCar() << "L de gasolina" << endl;
-
-    cout << "Ejemplo para el objeto de electricidad:" << endl << "-------------" << endl;
-    Electricity electricidadAuto1 (60000, 50000);
-    electricidadAuto1.print_electricity();
-    cout << "El auto ha usado 13000Wh de electricidad" << endl;
-    electricidadAuto1.electricity_used(13000);
-    cout << "El auto ahora tiene " << electricidadAuto1.get_electricityInCar() << "Kw de electricidad" << endl;
+void check_info(){
+    Car selectedCar = select_car();
+    selectedCar.print_info();
 }
 
 
@@ -174,38 +159,35 @@ int main(){
     cout << endl << "Bienvenido a tu almacen de autos" << endl;
     cout << "Aqui podras guardar tantos autos como quieras, revisar sus datos, tomar un auto para un paseo y muchas otras cosas";
     
-    generar_ejemplos();
+    create_examples();
 
-    int opcionPrincipal;
+    int mainOption;
     do{
         cout << endl;
-        switch (opcionPrincipal){
+        switch (mainOption){
             case 1:
                 cout << "Aun no tenemos esa funcion lista" << endl;
                 break;
             case 2:
-                usar_auto();
+                use_car();
                 break;
             case 3:
-                repintar_auto();
+                repaint_car();
                 break;
             case 4:
-                //codigo
+                check_inventory();
                 break;
             case 5:
-                ver_datos();
-                break;
-            case 7:
-                revisar_obj_nuevos();
+                check_info();
                 break;
         }
-        pausar();
+        pause();
 
-        instrucciones();
+        instructions();
         cout << endl << "Que opcion deseas usar? ";
-        cin >> opcionPrincipal;
+        cin >> mainOption;
         
     }
-    while (opcionPrincipal != 6);
+    while (mainOption != 6);
     return 0;   
 }
