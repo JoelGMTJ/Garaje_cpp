@@ -1,62 +1,95 @@
 #ifndef ELECTRIC_H
 #define ELECTRIC_H
 
+//Objeto que hereda de Car, contiene los datos del Car + los de la bateria del auto electrico
+
 #include <iostream>
+
+#include "obj_cars.h"
+
 using namespace std;
 
 class Electricity: public Car {
     private:
         int electricityCapacity; //capacidad maxima de la bateria del auto em Wh
-        float electricityInCar; //cuanta electricidad tiene el auto en Wh
+        float electricityPercentage; //cuanto porcentaje de electricidad tiene el auto
 
     public:
 
         //----Builders----
         Electricity(){
             electricityCapacity = 0;
-            electricityInCar = 0;
+            electricityPercentage = 0;
             Car();
         }
-        Electricity(int _electricityCapacity, int _electricityInCar, string _brand, string _model, int _year, int _cost, string _color, int _horsePower, float _starRating, int _seats, string _country, int _mileage) : Car( _brand,  _model,  _year,  _cost,  _color,  _horsePower,  _starRating,  _seats,  _country,  _mileage){
+        Electricity(int _electricityCapacity, float _electricityPercentage, string _brand, string _model, int _year, int _cost, string _color, int _horsePower, float _starRating, int _seats, string _country, int _mileage) : Car( _brand,  _model,  _year,  _cost,  _color,  _horsePower,  _starRating,  _seats,  _country,  _mileage){
             electricityCapacity = _electricityCapacity;
-            electricityInCar = _electricityInCar;
+            electricityPercentage = _electricityPercentage;
             Car( _brand,  _model,  _year,  _cost,  _color,  _horsePower,  _starRating,  _seats,  _country,  _mileage);
             }
         
         //----Getters----
-        int get_electricityCapacity(){
+        int getElectricityCapacity(){
             return electricityCapacity;
         }
-        int get_electricityInCar(){
-            return electricityInCar;
+        float getElectricityPercentage(){
+            return electricityPercentage;
         }
 
         //----setters----
-        void set_electricityCapacity(int _electricityCapacity){
+        void setElectricityCapacity(int _electricityCapacity){
             electricityCapacity = _electricityCapacity;
         }
-        void set_electricityInCar(int _electricityInCar){
-            electricityInCar = _electricityInCar;
+        void setElectricityPercentage(float _electricityPercentage){
+            electricityPercentage = _electricityPercentage;
         }
 
         //----Metodos----
-        void print_electricity(){
-            cout << "El auto usa electricidad" << endl;
+
+        //Imprime los datos del objeto Car + los de la electricidad
+        void printElectricity(){
+            Car::printInfoCar();
+            cout << "El auto es electrico" << endl;
             cout << "la capacidad la bateria es de " << electricityCapacity << "Wh" << endl;
-            cout << "El auto tiene " << electricityInCar << "Wh de electricidad" << endl;
+            cout << "El auto tiene " << electricityPercentage << "% de bateria" << endl;
+            cout << "------------------------------------------------------------------------" << endl;
         }
 
-        void electricity_used(int electricityUsed){
-            electricityInCar -= electricityUsed;
+        //Recibe cuanto porcentaje de carga uso y se lo resta al medidor
+        void electricityUsed(float percentageUsed, int kmTravelled){
+            electricityPercentage -= percentageUsed;
+            Car::carMoved(kmTravelled);
+            cout << "El nuevo kilometraje del auto es de " << mileage << "Km recorridos" << endl;
+            if (electricityPercentage <= 0){
+                electricityPercentage = 0;
+                cout << "El auto se ha quedado sin carga" << endl;
+            }
+            cout << "El carro ahora tiene " << electricityPercentage << "% de bateria" << endl;
+        }
+    
+
+        //Calcula cuanto tiempo va a tomar en cargar el auto tomando en cuenta que carga a 100kwh
+        //Regresa el tiempo en H que va a tardar en cargar
+        float timeToFullyCharged(){
+            float actualBattery = electricityCapacity*electricityPercentage/100;
+            float timeRemaining = electricityCapacity - actualBattery;
+            timeRemaining = timeRemaining/6000;
+            return timeRemaining;
         }
 
-        float time_to_fully_charged(){
-            float elecMissing = electricityCapacity-electricityInCar;
-            //asumiendo que se cargen a 100kwh
-            //lo va a regresar en horas
-            return (elecMissing/100)/60;
-
+        //Funcion que recibe las horas que se cargo el auto
+        //Asume que cada hora carga 6000 wh de bateria
+        void carRecharged(float hoursOfCharge){
+            float whCharged = hoursOfCharge*6000;
+            float actualBattery = electricityCapacity*electricityPercentage/100;
+            actualBattery += whCharged;
+            electricityPercentage = 100*actualBattery/electricityCapacity;
+            if (electricityPercentage >= 100){
+                electricityPercentage = 100;
+                cout << "El auto se ha cargado al 100%" << endl;
+            }
         }
+        
 };
 
 #endif 

@@ -1,7 +1,10 @@
 #ifndef CARS_H
 #define CARS_H
 
+//Clase Car, contiene los datos generales de un auto, padre de las clases electrico y gas
+
 #include <iostream>
+
 using namespace std;
 
 class Car {
@@ -46,75 +49,75 @@ class Car {
         }
         
         //----Getters----
-        string get_brand(){
+        string getBrand(){
             return brand;
         }
-        string get_model(){
+        string getModel(){
             return model;
         }
-        int get_year(){
+        int getYear(){
             return year;
         }
-        int get_cost(){
+        int getCost(){
             return cost;
         }
-        string get_color(){
+        string getColor(){
             return color;
         }
-        int get_horsePower(){
+        int getHorsePower(){
             return horsePower;
         }
-        float get_starRating(){
+        float getStarRating(){
             return starRating;
         }
-        int get_seats(){
+        int getSeats(){
             return seats;
         }
-        string get_country(){
+        string getCountry(){
             return country;
         }
-        int get_mileage(){
+        int getMileage(){
             return mileage;
         }
         
 
         //----setters----
-        void set_brand(string _brand){
+        void setBrand(string _brand){
             brand = _brand;
         }
-        void set_model(string _model){
+        void setModel(string _model){
             model = _model;
         }
-        void set_year(int _year){
+        void setYear(int _year){
             year = _year;
         }
-        void set_cost(int _cost){
+        void setCost(int _cost){
             cost = _cost;
         }
-        void set_color(string _color){
+        void setColor(string _color){
             color = _color;
         }
-        void set_horsePower(int _horsePower){
+        void setHorsePower(int _horsePower){
             horsePower = _horsePower;
         }
-        void set_starRating(float _starRating){
+        void setStarRating(float _starRating){
             starRating = _starRating;
         }
-        void set_seats(int _seats){
+        void setSeats(int _seats){
             seats = _seats;
         }
-        void set_country(string _country){
+        void setCountry(string _country){
             country = _country;
         }
-        void set_mileage(int _mileage){
+        void setMileage(int _mileage){
             mileage = _mileage;
         }
 
         //----metodos----
 
-        
-        void print_info_car(){
-            cout << "------------------------------------------------------------------------" << endl;
+        //Imprime todos los datos del auto
+        void printInfoCar(){
+            cout << endl << "------------------------------------------------------------------------" << endl;
             cout << "El auto es un " << brand << " " << model << endl;
             cout << "El auto es del anio " << year << endl;
             cout << "El precio original del auto es de $" << cost << " dolares" << endl;
@@ -126,11 +129,8 @@ class Car {
             cout << "El auto ha recorrido " << mileage << "km" << endl;
         }
 
-        virtual void print_info(){
-            cout << "Algo ha salido mal "<< brand <<  endl;
-        }
-
-        void car_moved(int travelled){
+        //Obtiene los km que se recorrieron y se los aumenta al millaje del auto
+        void carMoved(int travelled){
             mileage += travelled;
         }
 };
