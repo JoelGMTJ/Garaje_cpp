@@ -1,0 +1,20 @@
+Correcciones de mi proyecto
+
+Corregí toda la entrega 3, en la que estos fueron los comentarios:
+
+"Los nombres de tus archivos no están de acuerdo a las convenciones. Por otro lado, en el UML indicas que Garage sera una clase sin embargo no la implementas y el nombre lo usas para un archivo cpp con funciones de un main por tanto no hay composición o agregación."
+
+
+Cambie los nombres de mis objetos y funciones a camelCase.
+Volví a hacer el diagrama UML con las relaciones correctas de herencia y agregación.
+Implemente todos los objetos y todos se usan.
+Ahora si contiene herencia y agregación acorde al diagrama UML.
+
+Competencias a revisar:
+
+Utilizo el concepto de composición (o agreagación) en el diagrama de clases.
+Implemento las clases en c++ siguiendo el diseño del diagrama de clases en UML.
+Impemento composición (o agregación) sieguiendo mi diagrama de clases
+Sigo estándares en todo mi código fuente: estilo, sangrías, comentarios, nombres, etc...
+
+-Joel García A01713785
